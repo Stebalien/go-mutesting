@@ -180,7 +180,7 @@ func mainCmd(args []string) int {
 		return returnOk
 	} else if opts.Files.PrintAST {
 		for _, file := range files {
-			if opts.NoVendor && strings.Contains(file, "vendor/") {
+			if opts.General.NoVendor && strings.Contains(file, "vendor/") {
 				continue
 			}
 			
