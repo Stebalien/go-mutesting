@@ -43,6 +43,7 @@ type options struct {
 		DoNotRemoveTmpFolder bool `long:"do-not-remove-tmp-folder" description:"Do not remove the tmp folder where all mutations are saved to"`
 		Help                 bool `long:"help" description:"Show this help message"`
 		Verbose              bool `long:"verbose" description:"Verbose log output"`
+		NoVendor	     bool `long:"no-vendor" description:"Ignore vendor dir"`
 	} `group:"General options"`
 
 	Files struct {
@@ -179,6 +180,10 @@ func mainCmd(args []string) int {
 		return returnOk
 	} else if opts.Files.PrintAST {
 		for _, file := range files {
+			if opts.NoVendor && strings.Contains(file, "vendor/") {
+				continue
+			}
+			
 			fmt.Println(file)
 
 			src, _, err := mutesting.ParseFile(file)
