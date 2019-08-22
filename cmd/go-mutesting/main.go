@@ -258,6 +258,10 @@ MUTATOR:
 
 	for _, file := range files {
 		verbose(opts, "Mutate %q", file)
+		
+		if opts.General.NoVendor && strings.Contains(file, "vendor/") {
+			continue
+		}
 
 		src, fset, pkg, info, err := mutesting.ParseAndTypeCheckFile(file)
 		if err != nil {
