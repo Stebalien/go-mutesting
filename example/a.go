@@ -4,9 +4,9 @@ import (
 	"net/http"
 )
 
-type A struct{}
+type aType struct{}
 
-func fooA() (a A, b http.Header) {
+func fooA() (a aType, b http.Header) {
 	_, _, _ = a, b, http.Header{}
 
 	return a, b
