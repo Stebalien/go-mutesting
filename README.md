@@ -1,4 +1,4 @@
-# go-mutesting [![GoDoc](https://godoc.org/github.com/AntonStoeckl/go-mutesting?status.png)](https://godoc.org/github.com/AntonStoeckl/go-mutesting) [![Build Status](https://travis-ci.org/AntonStoeckl/go-mutesting.svg?branch=master)](https://travis-ci.org/AntonStoeckl/go-mutesting) [![Coverage Status](https://coveralls.io/repos/AntonStoeckl/go-mutesting/badge.png?branch=master)](https://coveralls.io/r/AntonStoeckl/go-mutesting?branch=master)
+# go-mutesting [![GoDoc](https://godoc.org/github.com/AntonStoeckl/go-mutesting?status.png)](https://godoc.org/github.com/AntonStoeckl/go-mutesting) [![Build Status](https://travis-ci.org/AntonStoeckl/go-mutesting.svg?branch=master)](https://travis-ci.org/AntonStoeckl/go-mutesting) [![Coverage Status](https://coveralls.io/repos/github/AntonStoeckl/go-mutesting/badge.svg?branch=master)](https://coveralls.io/github/AntonStoeckl/go-mutesting?branch=master)
 
 go-mutesting is a framework for performing mutation testing on Go source code. Its main purpose is to find source code, which is not covered by any tests.
 
