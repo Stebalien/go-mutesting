@@ -1,11 +1,10 @@
 package expression
 
 import (
+	"go-mutesting/mutator"
 	"go/ast"
 	"go/token"
 	"go/types"
-
-	"github.com/zimmski/go-mutesting/mutator"
 )
 
 func init() {

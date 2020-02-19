@@ -4,6 +4,12 @@ import (
 	"bytes"
 	"crypto/md5"
 	"fmt"
+	"go-mutesting"
+	"go-mutesting/astutil"
+	"go-mutesting/mutator"
+	_ "go-mutesting/mutator/branch"
+	_ "go-mutesting/mutator/expression"
+	_ "go-mutesting/mutator/statement"
 	"go/ast"
 	"go/format"
 	"go/printer"
@@ -21,13 +27,6 @@ import (
 	"github.com/jessevdk/go-flags"
 	"github.com/zimmski/go-tool/importing"
 	"github.com/zimmski/osutil"
-
-	"github.com/zimmski/go-mutesting"
-	"github.com/zimmski/go-mutesting/astutil"
-	"github.com/zimmski/go-mutesting/mutator"
-	_ "github.com/zimmski/go-mutesting/mutator/branch"
-	_ "github.com/zimmski/go-mutesting/mutator/expression"
-	_ "github.com/zimmski/go-mutesting/mutator/statement"
 )
 
 const (
@@ -43,7 +42,7 @@ type options struct {
 		DoNotRemoveTmpFolder bool `long:"do-not-remove-tmp-folder" description:"Do not remove the tmp folder where all mutations are saved to"`
 		Help                 bool `long:"help" description:"Show this help message"`
 		Verbose              bool `long:"verbose" description:"Verbose log output"`
-		NoVendor	     bool `long:"no-vendor" description:"Ignore vendor dir"`
+		NoVendor             bool `long:"no-vendor" description:"Ignore vendor dir"`
 	} `group:"General options"`
 
 	Files struct {
@@ -183,7 +182,7 @@ func mainCmd(args []string) int {
 			if opts.General.NoVendor && strings.Contains(file, "vendor/") {
 				continue
 			}
-			
+
 			fmt.Println(file)
 
 			src, _, err := mutesting.ParseFile(file)
@@ -258,7 +257,7 @@ MUTATOR:
 
 	for _, file := range files {
 		verbose(opts, "Mutate %q", file)
-		
+
 		if opts.General.NoVendor && strings.Contains(file, "vendor/") {
 			continue
 		}
@@ -342,7 +341,7 @@ func mutate(opts *options, mutators []mutatorItem, mutationBlackList map[string]
 				debug(opts, "Save mutation into %q with checksum %s", mutationFile, checksum)
 
 				if !opts.Exec.NoExec {
-					execExitCode := mutateExec(opts, pkg, file, src, mutationFile, execs)
+					execExitCode := mutateExec(opts, pkg, file, mutationFile, execs)
 
 					debug(opts, "Exited with %d", execExitCode)
 
@@ -380,7 +379,7 @@ func mutate(opts *options, mutators []mutatorItem, mutationBlackList map[string]
 	return mutationID
 }
 
-func mutateExec(opts *options, pkg *types.Package, file string, src ast.Node, mutationFile string, execs []string) (execExitCode int) {
+func mutateExec(opts *options, pkg *types.Package, file string, mutationFile string, execs []string) (execExitCode int) {
 	if len(execs) == 0 {
 		debug(opts, "Execute built-in exec command for mutation")
 

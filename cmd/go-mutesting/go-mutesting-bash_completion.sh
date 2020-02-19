@@ -1,4 +1,4 @@
-#/bin/sh
+#!/usr/bin/bash
 
 _go_mutesting() {
 	args=("${COMP_WORDS[@]:1:$COMP_CWORD}")

@@ -3,14 +3,13 @@ package test
 import (
 	"bytes"
 	"fmt"
+	"go-mutesting"
+	"go-mutesting/mutator"
 	"go/printer"
 	"io/ioutil"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-
-	"github.com/zimmski/go-mutesting"
-	"github.com/zimmski/go-mutesting/mutator"
 )
 
 // Mutator tests a mutator.
@@ -24,7 +23,7 @@ func Mutator(t *testing.T, m mutator.Mutator, testFile string, count int) {
 	assert.Nil(t, err)
 
 	// Parse and type-check the original source code
-	src, fset, pkg, info, err := mutesting.ParseAndTypeCheckFile(testFile)
+	src, fset, pkg, info, err := mutesting.ParseAndTypeCheckFile(testFile, "-tags=test")
 	assert.Nil(t, err)
 
 	// Mutate a non relevant node
