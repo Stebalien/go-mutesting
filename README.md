@@ -2,6 +2,19 @@
 
 go-mutesting is a framework for performing mutation testing on Go source code. Its main purpose is to find source code, which is not covered by any tests.
 
+## Disclaimer
+
+The original project for go-mutesting is this: [github.com/zimmski/go-mutesting](https://github.com/zimmski/go-mutesting), but it seems unmaintained and was never adapted to go modules.
+Adaption to go modules was done in this fork: [github.com/rumd3x/go-mutesting](https://github.com/rumd3x/go-mutesting), but this is not complete, at least it did not work for me.
+I adapted and fixed some pieces, especially I replaced all occurrences of github.com/zimmski/go-mutesting with github.com/AntonStoeckl/go-mutesting, so it's currently not possible to merge into upstream any more.
+When I install my local copy with
+```bash
+make install
+```
+it works, and that's all I can tell!
+
+I do not know if I'll be able to do any support for this project, because of job and family!
+
 ## Quick example
 
 The following command mutates the go-mutesting project with all available mutators.
