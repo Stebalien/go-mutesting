@@ -1,8 +1,9 @@
 package statement
 
 import (
-	"go-mutesting/test"
 	"testing"
+
+	"github.com/AntonStoeckl/go-mutesting/test"
 )
 
 func TestMutatorRemoveStatement(t *testing.T) {

@@ -1,8 +1,9 @@
 package branch
 
 import (
-	"go-mutesting/test"
 	"testing"
+
+	"github.com/AntonStoeckl/go-mutesting/test"
 )
 
 func TestMutatorIf(t *testing.T) {

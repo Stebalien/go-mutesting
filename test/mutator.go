@@ -3,12 +3,12 @@ package test
 import (
 	"bytes"
 	"fmt"
-	"go-mutesting"
-	"go-mutesting/mutator"
 	"go/printer"
 	"io/ioutil"
 	"testing"
 
+	"github.com/AntonStoeckl/go-mutesting"
+	"github.com/AntonStoeckl/go-mutesting/mutator"
 	"github.com/stretchr/testify/assert"
 )
 
