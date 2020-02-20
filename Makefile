@@ -69,5 +69,5 @@ test-verbose:
 .PHONY: test-verbose
 
 test-verbose-with-coverage:
-	ginkgo -r -v -cover -race -coverpkg (PKG_TEST) -skipPackage="testdata,example"
+	ginkgo -r -v -cover -race -coverpkg $(PKG_TEST) -skipPackage="testdata,example"
 .PHONY: test-verbose-with-coverage
