@@ -41,7 +41,7 @@ func foo() int {
 	default:
 		n = 0
 		fmt.Println(n)
-
+		func() {}()
 	}
 
 	var x = 0
@@ -65,15 +65,14 @@ func statementRemoveStructInitialization() (a http.Header, b error) {
 func statementRemoveStringArrayMap() map[string][]string {
 	hash := "ok"
 	var hdr = make(map[string][]string)
-
-	hdr["Hash"] = []string{hash}
+	_, _ = hdr, hash
 
 	return hdr
 }
 
 func statementRemoveSetStructProperty() Outer {
 	outer := Outer{}
-	outer.inner = Inner{}
+	_ = outer.inner
 
 	return outer
 }

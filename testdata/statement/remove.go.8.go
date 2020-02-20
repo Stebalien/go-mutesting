@@ -71,3 +71,17 @@ func statementRemoveStringArrayMap() map[string][]string {
 
 	return hdr
 }
+
+type Inner struct {
+}
+
+func statementRemoveSetStructProperty() Outer {
+	outer := Outer{}
+	outer.inner = Inner{}
+
+	return outer
+}
+
+type Outer struct {
+	inner Inner
+}
