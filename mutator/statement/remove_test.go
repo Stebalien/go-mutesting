@@ -11,6 +11,15 @@ func TestMutatorRemoveStatement(t *testing.T) {
 		t,
 		MutatorRemoveStatement,
 		"../../testdata/statement/remove.go",
-		18,
+		17,
+	)
+}
+
+func TestMutatorRemoveStatementSetStructProperty(t *testing.T) {
+	test.Mutator(
+		t,
+		MutatorRemoveStatement,
+		"../../testdata/statement/removesetstructproperty.go",
+		1,
 	)
 }
