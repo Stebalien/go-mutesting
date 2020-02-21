@@ -56,7 +56,7 @@ func bar() int {
 
 func statementRemoveStructInitialization() (a http.Header, b error) {
 	var err error
-	_, _, _, _ = a, b, http.Header{}, err
+	_, _, _ = a, b, err
 
 	return
 }
@@ -68,4 +68,21 @@ func statementRemoveStringArrayMap() map[string][]string {
 	hdr["Hash"] = []string{hash}
 
 	return hdr
+}
+
+type Inner struct {
+}
+
+type Outer struct {
+	inner Inner
+}
+
+func statementRemoveSetStructPropertyWhichIsAnotherStruct() Outer {
+	var a int
+
+	outer := Outer{}
+	outer.inner = Inner{}
+	outer.inner, a = Inner{}, 1
+
+	return outer
 }

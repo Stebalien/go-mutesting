@@ -82,7 +82,7 @@ func statementRemoveSetStructPropertyWhichIsAnotherStruct() Outer {
 	var a int
 
 	outer := Outer{}
-	outer.inner = Inner{}
+
 	outer.inner, a = Inner{}, 1
 
 	return outer
