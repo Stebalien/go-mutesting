@@ -21,9 +21,11 @@ func MutatorStructinitRemove(pkg *types.Package, info *types.Info, node ast.Node
 			if assignStmt, ok := stmt.(*ast.AssignStmt); ok {
 				if compositeLit, ok := assignStmt.Rhs[0].(*ast.CompositeLit); ok {
 					if ident, ok := compositeLit.Type.(*ast.Ident); ok {
-						if typeSpec, ok := ident.Obj.Decl.(*ast.TypeSpec); ok {
-							if _, ok := typeSpec.Type.(*ast.StructType); ok {
-								compositeLits = append(compositeLits, compositeLit)
+						if ident.Obj != nil {
+							if typeSpec, ok := ident.Obj.Decl.(*ast.TypeSpec); ok {
+								if _, ok := typeSpec.Type.(*ast.StructType); ok {
+									compositeLits = append(compositeLits, compositeLit)
+								}
 							}
 						}
 					}
