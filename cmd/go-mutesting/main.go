@@ -24,6 +24,7 @@ import (
 	_ "github.com/AntonStoeckl/go-mutesting/mutator/branch"
 	_ "github.com/AntonStoeckl/go-mutesting/mutator/expression"
 	_ "github.com/AntonStoeckl/go-mutesting/mutator/statement"
+	_ "github.com/AntonStoeckl/go-mutesting/mutator/structinit"
 
 	"github.com/jessevdk/go-flags"
 	"github.com/zimmski/go-tool/importing"

@@ -13,73 +13,46 @@ func init() {
 
 // MutatorStructinitRemove implements a mutator to remove fields from struct initialisation.
 func MutatorStructinitRemove(pkg *types.Package, info *types.Info, node ast.Node) []mutator.Mutation {
-	var strus []*ast.CompositeLit
-	_ = strus
-
+	var compositeLits []*ast.CompositeLit
 	var mutations []mutator.Mutation
 
-	switch n := node.(type) {
-	case *ast.BlockStmt:
-		for _, spec := range n.List {
-			switch a := spec.(type) {
-			case *ast.AssignStmt:
-				if cl, ok := a.Rhs[0].(*ast.CompositeLit); ok {
-					if _, ok := cl.Type.(*ast.Ident).Obj.Decl.(*ast.TypeSpec).Type.(*ast.StructType); ok {
-						strus = append(strus, cl)
+	if blockStmt, ok := node.(*ast.BlockStmt); ok {
+		for _, stmt := range blockStmt.List {
+			if assignStmt, ok := stmt.(*ast.AssignStmt); ok {
+				if compositeLit, ok := assignStmt.Rhs[0].(*ast.CompositeLit); ok {
+					if ident, ok := compositeLit.Type.(*ast.Ident); ok {
+						if typeSpec, ok := ident.Obj.Decl.(*ast.TypeSpec); ok {
+							if _, ok := typeSpec.Type.(*ast.StructType); ok {
+								compositeLits = append(compositeLits, compositeLit)
+							}
+						}
 					}
 				}
-
 			}
 		}
-	default:
-		return mutations
 	}
 
-	for i, stru := range strus {
-		old := *stru
+	for _, compositeLit := range compositeLits {
+		for compositeLitElementIdx := range compositeLit.Elts {
+			originalCompositeLitElements := compositeLit.Elts
+			var newCompositeLitElements []ast.Expr
 
-		//for j, elt := range strus[i].Elts {
-		//
-		//}
+			for i := 0; i < len(compositeLit.Elts); i++ {
+				if compositeLitElementIdx != i {
+					newCompositeLitElements = append(newCompositeLitElements, compositeLit.Elts[i])
+				}
+			}
 
-		mutations = append(mutations, mutator.Mutation{
-			Change: func() {
-				elts := []ast.Expr{stru.Elts[0]}
-				strus[i].Elts = elts
-			},
-			Reset: func() {
-				strus[i] = &old
-			},
-		})
-
+			mutations = append(mutations, mutator.Mutation{
+				Change: func() {
+					compositeLit.Elts = newCompositeLitElements
+				},
+				Reset: func() {
+					compositeLit.Elts = originalCompositeLitElements
+				},
+			})
+		}
 	}
-
-	//for i, _ := range strus {
-	//	currentStruct, ok := strus[i].(*ast.TypeSpec).Type.(*ast.StructType)
-	//	if !ok {
-	//		continue
-	//	}
-	//
-	//	oldStructFields := *strus[i].(*ast.TypeSpec).Type.(*ast.StructType).Fields
-	//	_ = oldStructFields
-	//
-	//	for k, field := range oldStructFields.List {
-	//		currentStruct.Fields.List = []*ast.Field{}
-	//
-	//		mutations = append(mutations, mutator.Mutation{
-	//			Change: func() {
-	//				for j := 0; j < len(oldStructFields.List); j++ {
-	//					if k != j {
-	//						currentStruct.Fields.List = append(currentStruct.Fields.List, field)
-	//					}
-	//				}
-	//			},
-	//			Reset: func() {
-	//				strus[i].(*ast.TypeSpec).Type.(*ast.StructType).Fields = &oldStructFields
-	//			},
-	//		})
-	//	}
-	//}
 
 	return mutations
 }

@@ -9,6 +9,7 @@ type Some struct {
 
 func removeFieldsFromStructInit() Some {
 	some := Some{
+
 		B: 5,
 	}
 
