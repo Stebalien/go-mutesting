@@ -3,7 +3,7 @@ package test
 import (
 	"bytes"
 	"fmt"
-	"go/printer"
+	"go/format"
 	"io/ioutil"
 	"testing"
 
@@ -40,7 +40,8 @@ func Mutator(t *testing.T, m mutator.Mutator, testFile string, count int) {
 		assert.True(t, <-changed)
 
 		buf := new(bytes.Buffer)
-		err = printer.Fprint(buf, fset, src)
+		err = format.Node(buf, fset, src)
+
 		assert.Nil(t, err)
 
 		changedFilename := fmt.Sprintf("%s.%d.go", testFile, i)
@@ -57,7 +58,7 @@ func Mutator(t *testing.T, m mutator.Mutator, testFile string, count int) {
 		assert.True(t, <-changed)
 
 		buf = new(bytes.Buffer)
-		err = printer.Fprint(buf, fset, src)
+		err = format.Node(buf, fset, src)
 		assert.Nil(t, err)
 
 		assert.Equal(t, string(data), buf.String())

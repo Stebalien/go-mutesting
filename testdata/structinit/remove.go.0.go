@@ -3,8 +3,8 @@
 package example
 
 type Some struct {
-	a	string
-	B	int
+	a string
+	B int
 }
 
 func removeFieldsFromStructInit() Some {

@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"go/ast"
 	"go/format"
-	"go/printer"
 	"go/token"
 	"go/types"
 	"io"
@@ -505,7 +504,7 @@ func saveAST(mutationBlackList map[string]struct{}, file string, fset *token.Fil
 
 	h := md5.New()
 
-	err := printer.Fprint(io.MultiWriter(h, &buf), fset, node)
+	err := format.Node(io.MultiWriter(h, &buf), fset, node)
 	if err != nil {
 		return "", false, err
 	}
