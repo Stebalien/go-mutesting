@@ -14,13 +14,12 @@ func removeFieldsFromStructInit() Some {
 
 	some := Some{
 		a: aVal,
-
+		B: 5,
 		c: cVal,
 	}
 
-	other := Some{
-		a: aVal,
-	}
+	other := Some{}
+	_ = aVal
 
 	return some
 }

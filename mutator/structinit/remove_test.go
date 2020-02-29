@@ -11,6 +11,6 @@ func TestMutatorInitStruct(t *testing.T) {
 		t,
 		MutatorStructinitRemove,
 		"../../testdata/structinit/remove.go",
-		2,
+		4,
 	)
 }
