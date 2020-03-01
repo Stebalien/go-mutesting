@@ -230,6 +230,8 @@ Examples for exec commands can be found in the [scripts](/scripts/exec) director
 
 ## <a name="list-of-mutators"></a>Which mutators are implemented?
 
+Examples can be found in the testdata directory.
+
 ### Branch mutators
 
 | Name          | Description                                        |
@@ -251,13 +253,21 @@ Examples for exec commands can be found in the [scripts](/scripts/exec) director
 | :------------------ | :--------------------------------------------- |
 | statement/remove    | Removes assignment, increment, decrement and expression statements. |
 
+### Struct initialization mutators (added in release 1.3)
+
+| Name                | Description                                    |
+| :------------------ | :--------------------------------------------- |
+| structinit/remove   | Removes fields from struct initializations. |
+
 ## <a name="write-mutators"></a>How do I write my own mutators?
 
-Each mutator must implement the `Mutator` interface of the [github.com/AntonStoeckl/go-mutesting/mutator](https://godoc.org/github.com/AntonStoeckl/go-mutesting/mutator#Mutator) package. The methods of the interface are described in detail in the source code documentation.
+Each mutator must implement the `Mutator` function type of the [github.com/AntonStoeckl/go-mutesting/mutator](https://godoc.org/github.com/AntonStoeckl/go-mutesting/mutator#Mutator) package. The methods of the interface are described in detail in the source code documentation.
 
-Additionally each mutator has to be registered with the `Register` function of the [github.com/AntonStoeckl/go-mutesting/mutator](https://godoc.org/github.com/AntonStoeckl/go-mutesting/mutator#Mutator) package to make it usable by the binary.
+Each mutator has to be registered with the `Register` function of the [github.com/AntonStoeckl/go-mutesting/mutator](https://godoc.org/github.com/AntonStoeckl/go-mutesting/mutator#Mutator) package to make it usable by the binary.
+Register is called by the init() function of each mutator.
+In order for this call to happen it needs to be importet in main.go, e.g. "_ github.com/AntonStoeckl/go-mutesting/mutator/branch"
 
-Examples for mutators can be found in the [github.com/AntonStoeckl/go-mutesting/mutator](https://godoc.org/github.com/AntonStoeckl/go-mutesting/mutator) package and its sub-packages.
+Examples for mutators can be found in the [github.com/AntonStoeckl/go-mutesting/mutator](https://godoc.org/github.com/AntonStoeckl/go-mutesting/mutator) sub-packages.
 
 ## <a name="other-projects"></a>Other mutation testing projects and their flaws
 
