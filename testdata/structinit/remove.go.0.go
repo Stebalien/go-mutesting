@@ -19,7 +19,9 @@ func removeFieldsFromStructInit() Some {
 	}
 	_ = aVal
 
-	other := Some{
+	var other Some
+
+	other = Some{
 		a: aVal,
 	}
 
