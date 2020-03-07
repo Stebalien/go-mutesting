@@ -69,6 +69,7 @@ type options struct {
 
 	Test struct {
 		Recursive bool `long:"test-recursive" description:"Defines if the executer should test recursively"`
+		BuildTags []string `long:"build-tags" description:"Supplies additional go build tags"`
 	} `group:"Test options"`
 
 	Remaining struct {
@@ -416,7 +417,20 @@ func mutateExec(opts *options, pkg *types.Package, file string, mutationFile str
 			pkgName += "/..."
 		}
 
-		test, err := exec.Command("go", "test", "-timeout", fmt.Sprintf("%ds", opts.Exec.Timeout), pkgName).CombinedOutput()
+		args := []string{
+			"test",
+			"-timeout",
+			fmt.Sprintf("%ds", opts.Exec.Timeout),
+		}
+
+		if len(opts.Test.BuildTags) != 0 {
+			buildTags := "-tags="  + strings.Join(opts.Test.BuildTags, ",")
+			args = append(args, buildTags)
+		}
+
+		args = append(args, pkgName)
+
+		test, err := exec.Command("go", args...).CombinedOutput()
 		if err == nil {
 			execExitCode = 0
 		} else if e, ok := err.(*exec.ExitError); ok {
@@ -463,6 +477,10 @@ func mutateExec(opts *options, pkg *types.Package, file string, mutationFile str
 	execCommand.Stderr = os.Stderr
 	execCommand.Stdout = os.Stdout
 
+	var buildTags string
+
+
+
 	execCommand.Env = append(os.Environ(), []string{
 		"MUTATE_CHANGED=" + mutationFile,
 		fmt.Sprintf("MUTATE_DEBUG=%t", opts.General.Debug),
@@ -471,8 +489,14 @@ func mutateExec(opts *options, pkg *types.Package, file string, mutationFile str
 		fmt.Sprintf("MUTATE_TIMEOUT=%d", opts.Exec.Timeout),
 		fmt.Sprintf("MUTATE_VERBOSE=%t", opts.General.Verbose),
 	}...)
+
 	if opts.Test.Recursive {
 		execCommand.Env = append(execCommand.Env, "TEST_RECURSIVE=true")
+	}
+
+	if len(opts.Test.BuildTags) != 0 {
+		buildTags = strings.Join(opts.Test.BuildTags, ",")
+		execCommand.Env = append(execCommand.Env, fmt.Sprintf("MUTATE_BUILD_TAGS=%s", buildTags))
 	}
 
 	err := execCommand.Start()

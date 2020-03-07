@@ -10,31 +10,32 @@ if [ -z ${MUTATE_ORIGINAL+x} ]; then echo "MUTATE_ORIGINAL is not set"; exit 1; 
 if [ -z ${MUTATE_PACKAGE+x} ]; then echo "MUTATE_PACKAGE is not set"; exit 1; fi
 
 function clean_up {
-	if [ -f $MUTATE_ORIGINAL.tmp ];
+	if [ -f "$MUTATE_ORIGINAL".tmp ];
 	then
-		mv $MUTATE_ORIGINAL.tmp $MUTATE_ORIGINAL
+		mv "$MUTATE_ORIGINAL".tmp "$MUTATE_ORIGINAL"
 	fi
 }
 
 function sig_handler {
 	clean_up
 
-	exit $GOMUTESTING_RESULT
+	exit "$GOMUTESTING_RESULT"
 }
 trap sig_handler SIGHUP SIGINT SIGTERM
 
-export GOMUTESTING_DIFF=$(diff -u $MUTATE_ORIGINAL $MUTATE_CHANGED)
+export GOMUTESTING_DIFF=$(diff -u "$MUTATE_ORIGINAL" "$MUTATE_CHANGED")
 
-mv $MUTATE_ORIGINAL $MUTATE_ORIGINAL.tmp
-cp $MUTATE_CHANGED $MUTATE_ORIGINAL
+mv "$MUTATE_ORIGINAL" "$MUTATE_ORIGINAL".tmp
+cp "$MUTATE_CHANGED" "$MUTATE_ORIGINAL"
 
 export MUTATE_TIMEOUT=${MUTATE_TIMEOUT:-10}
+export MUTATE_BUILD_TAGS=${MUTATE_BUILD_TAGS}
 
 if [ -n "$TEST_RECURSIVE" ]; then
 	TEST_RECURSIVE="/..."
 fi
 
-GOMUTESTING_TEST=$(go test -timeout $(printf '%ds' $MUTATE_TIMEOUT) $MUTATE_PACKAGE$TEST_RECURSIVE 2>&1)
+GOMUTESTING_TEST=$(go test -timeout "$(printf '%ds' "$MUTATE_TIMEOUT")" -tags="$MUTATE_BUILD_TAGS" "$MUTATE_PACKAGE""$TEST_RECURSIVE" 2>&1)
 export GOMUTESTING_RESULT=$?
 
 if [ "$MUTATE_DEBUG" = true ] ; then
@@ -71,6 +72,6 @@ case $GOMUTESTING_RESULT in
 	echo "Unknown exit code"
 	echo "$GOMUTESTING_DIFF"
 
-	exit $GOMUTESTING_RESULT
+	exit "$GOMUTESTING_RESULT"
 	;;
 esac
