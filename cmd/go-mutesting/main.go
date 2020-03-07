@@ -68,7 +68,7 @@ type options struct {
 	} `group:"Exec options"`
 
 	Test struct {
-		Recursive bool `long:"test-recursive" description:"Defines if the executer should test recursively"`
+		Recursive bool     `long:"test-recursive" description:"Defines if the executer should test recursively"`
 		BuildTags []string `long:"build-tags" description:"Supplies additional go build tags"`
 	} `group:"Test options"`
 
@@ -424,7 +424,7 @@ func mutateExec(opts *options, pkg *types.Package, file string, mutationFile str
 		}
 
 		if len(opts.Test.BuildTags) != 0 {
-			buildTags := "-tags="  + strings.Join(opts.Test.BuildTags, ",")
+			buildTags := "-tags=" + strings.Join(opts.Test.BuildTags, ",")
 			args = append(args, buildTags)
 		}
 
@@ -478,8 +478,6 @@ func mutateExec(opts *options, pkg *types.Package, file string, mutationFile str
 	execCommand.Stdout = os.Stdout
 
 	var buildTags string
-
-
 
 	execCommand.Env = append(os.Environ(), []string{
 		"MUTATE_CHANGED=" + mutationFile,
