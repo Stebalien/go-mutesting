@@ -1,4 +1,4 @@
-module github.com/AntonStoeckl/go-mutesting
+module github.com/Stebalien/go-mutesting
 
 go 1.13
 

@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/AntonStoeckl/go-mutesting"
-	"github.com/AntonStoeckl/go-mutesting/mutator"
+	"github.com/Stebalien/go-mutesting"
+	"github.com/Stebalien/go-mutesting/mutator"
 	"github.com/stretchr/testify/assert"
 )
 

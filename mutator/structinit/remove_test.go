@@ -3,7 +3,7 @@ package structinit
 import (
 	"testing"
 
-	"github.com/AntonStoeckl/go-mutesting/test"
+	"github.com/Stebalien/go-mutesting/test"
 )
 
 func TestMutatorInitStruct(t *testing.T) {
