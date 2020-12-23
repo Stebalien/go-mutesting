@@ -16,7 +16,7 @@ func CreateNoopOfStatements(pkg *types.Package, info *types.Info, stmts []ast.St
 	var rhs []ast.Expr
 
 	for _, stmt := range stmts {
-		for _, identfier := range IdentifiersInStatement(pkg, info, stmt) {
+		for _, identfier := range NoopExprsInStatement(pkg, info, stmt) {
 			if removeIdentifierInNooping(identfier) {
 				rhs = append(rhs, identfier)
 			}

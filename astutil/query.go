@@ -6,22 +6,23 @@ import (
 	"go/types"
 )
 
-// IdentifiersInStatement returns all identifiers with their found in a statement.
-func IdentifiersInStatement(pkg *types.Package, info *types.Info, stmt ast.Stmt) []ast.Expr {
-	w := &identifierWalker{
+// NoopExprsInStatement returns a list of expressions that must be evaluated and
+// discarded to avoid unused import errors.
+func NoopExprsInStatement(pkg *types.Package, info *types.Info, stmt ast.Stmt) []ast.Expr {
+	w := &noopWalker{
 		pkg:  pkg,
 		info: info,
 	}
 
 	ast.Walk(w, stmt)
 
-	return w.identifiers
+	return w.exprs
 }
 
-type identifierWalker struct {
-	identifiers []ast.Expr
-	pkg         *types.Package
-	info        *types.Info
+type noopWalker struct {
+	exprs []ast.Expr
+	pkg   *types.Package
+	info  *types.Info
 }
 
 func checkForSelectorExpr(node ast.Expr) bool {
@@ -35,7 +36,7 @@ func checkForSelectorExpr(node ast.Expr) bool {
 	return false
 }
 
-func (w *identifierWalker) Visit(node ast.Node) ast.Visitor {
+func (w *noopWalker) Visit(node ast.Node) ast.Visitor {
 	switch n := node.(type) {
 	case *ast.Ident:
 		// Ignore the blank identifier
@@ -56,7 +57,7 @@ func (w *identifierWalker) Visit(node ast.Node) ast.Visitor {
 		}
 
 		// FIXME instead of manually creating a new node, clone it and trim the node from its comments and position
-		w.identifiers = append(w.identifiers, &ast.Ident{
+		w.exprs = append(w.exprs, &ast.Ident{
 			Name: n.Name,
 		})
 
@@ -81,14 +82,17 @@ func (w *identifierWalker) Visit(node ast.Node) ast.Visitor {
 
 		if initialize {
 			// FIXME we need to clone the node and trim comments and position recursively
-			w.identifiers = append(w.identifiers, &ast.CompositeLit{
+			w.exprs = append(w.exprs, &ast.CompositeLit{
 				Type: n,
 			})
 		} else {
 			// FIXME we need to clone the node and trim comments and position recursively
-			w.identifiers = append(w.identifiers, n)
+			w.exprs = append(w.exprs, n)
 		}
 
+		return nil
+	case *ast.FuncLit:
+		w.exprs = append(w.exprs, n)
 		return nil
 	}
 
