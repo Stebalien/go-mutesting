@@ -4,12 +4,19 @@ go-mutesting is a framework for performing mutation testing on Go source code. I
 
 ## Disclaimer
 
-The original project for go-mutesting is this: [github.com/zimmski/go-mutesting](https://github.com/zimmski/go-mutesting), but it seems unmaintained and was never adapted to go modules.
-Adaption to go modules was done in this fork: [github.com/rumd3x/go-mutesting](https://github.com/rumd3x/go-mutesting), but this is not complete, at least it did not work for me.
-I adapted and fixed some pieces, especially I replaced all occurrences of github.com/zimmski/go-mutesting with github.com/Stebalien/go-mutesting, so it's currently not possible to merge into upstream any more.
-I have not yet tried to understand, change or extend the implementation. I might do that in the future. For now all I can tell is that it works for me.
-I do not know if I'll be able to do any support for this project, because of job and family!
-It should be quite stable, so if you want to do mutation testing - use it! :-)
+> The original project for go-mutesting is this: [github.com/zimmski/go-mutesting](https://github.com/zimmski/go-mutesting), but it seems unmaintained and was never adapted to go modules.
+> Adaption to go modules was done in this fork: [github.com/rumd3x/go-mutesting](https://github.com/rumd3x/go-mutesting), but this is not complete, at least it did not work for me.
+> I adapted and fixed some pieces, especially I replaced all occurrences of github.com/zimmski/go-mutesting with github.com/Stebalien/go-mutesting, so it's currently not possible to merge into upstream any more.
+> I have not yet tried to understand, change or extend the implementation. I might do that in the future. For now all I can tell is that it works for me.
+> I do not know if I'll be able to do any support for this project, because of job and family!
+> It should be quite stable, so if you want to do mutation testing - use it! :-)
+
+-- @AntonStoeckl
+
+> I've forked this _again_ to fix issues with v2+ go modules, and improve statement deletion logic. I'm happy to upstream any changes but it doesn't sound like there are any actively maintained upstreams willing to review changes.
+
+-- @Stebalien
+
 
 ## Quick example
 
