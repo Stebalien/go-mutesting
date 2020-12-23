@@ -3,7 +3,6 @@ package mutesting
 import (
 	"fmt"
 	"go/ast"
-	"go/build"
 	"go/parser"
 	"go/token"
 	"go/types"
@@ -44,17 +43,7 @@ func ParseAndTypeCheckFile(file string, flags ...string) (*ast.File, *token.File
 	if err != nil {
 		return nil, nil, nil, nil, fmt.Errorf("could not absolute the file path of %q: %v", file, err)
 	}
-	dir := filepath.Dir(fileAbs)
-
-	buildPkg, err := build.ImportDir(dir, build.FindOnly)
-	if err != nil {
-		return nil, nil, nil, nil, fmt.Errorf("could not create build package of %q: %v", file, err)
-	}
-
-	pkgPath := buildPkg.ImportPath
-	if buildPkg.ImportPath == "." {
-		pkgPath = dir
-	}
+	pkgPath := filepath.Dir(fileAbs)
 
 	prog, err := packages.Load(&packages.Config{
 		ParseFile: func(fset *token.FileSet, filename string, src []byte) (*ast.File, error) {
